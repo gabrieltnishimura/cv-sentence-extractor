@@ -15,7 +15,7 @@ impl Wikipedia {
     let config = Config {
       language,
       directory,
-      max_sentences_per_text: 3,
+      max_sentences_per_text: 100,
       file_prefix: String::from("wiki_"),
     };
 

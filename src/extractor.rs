@@ -32,20 +32,29 @@ pub fn extract(loader: impl Loader, no_check: bool) -> Result<(), String> {
                 &config,
                 checker::check,
                 replacer::replace_strings,
-                no_check,
+                false,
             );
 
-            for sentence in sentences {
-                println!("{}", sentence);
-                char_count += sentence.chars().count();
-                sentence_count += 1;
-                existing_sentences.insert(sentence);
-            }
+            // if sentences.len() > 7 {
+              // writeln!(file, "------ {} ------", get_title(&text));
+              for sentence in sentences {
+                  // writeln!(file, "{}", sentence);
+                  println!("{}", sentence);
+                  char_count += sentence.chars().count();
+                  sentence_count += 1;
+                  existing_sentences.insert(sentence);
+              }
+            // }
         }
         eprintln!("avg chars per sentence = {:?}", char_count as f64 / f64::from(sentence_count));
         eprintln!("count = {:?}", sentence_count);
     }
     Ok(())
+}
+
+fn get_title(text: &str) -> &str {
+  let split: Vec<&str> = text.split("\n\n").collect();
+  return &split[0];
 }
 
 fn choose(
