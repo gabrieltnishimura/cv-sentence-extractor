@@ -93,24 +93,15 @@ fn pick_sentences(
 ) -> Vec<String> {
     let total_in_pool = sentences_pool.len();
 
-    if total_in_pool < amount && amount != std::usize::MAX {
-        return vec![];
-    }
-
     if total_in_pool == 1 {
         return sentences_pool;
     }
 
     let mut iteration = 0;
     let mut chosen_sentences = vec![];
-    let mut used_indexes = vec![];
     let mut still_has_sentences_to_search = true;
-    while chosen_sentences.len() < amount && still_has_sentences_to_search {
-        let rng = rand::thread_rng();
-        let random_index: usize = get_not_yet_used_index(rng, total_in_pool - 1, &used_indexes);
-        used_indexes.push(random_index);
-
-        let sentence = &sentences_pool[random_index];
+    while still_has_sentences_to_search {
+        let sentence = &sentences_pool[iteration];
         let not_already_chosen = !existing_sentences.contains(sentence);
         if predicate(rules, &sentence) && not_already_chosen {
             chosen_sentences.push(sentence.trim().to_string());
